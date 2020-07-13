@@ -11,6 +11,10 @@ export const ADD_COMMENT = gql`
     addComment(postId: $postId, text: $text) {
       id
       text
+      user {
+        id
+        username
+      }
     }
   }
 `;

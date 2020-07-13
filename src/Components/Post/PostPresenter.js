@@ -95,8 +95,9 @@ export default ({
   createdAt,
   newComment,
   toggleLike,
-  onKeyUp,
-  comments
+  onKeyPress,
+  comments,
+  selfComments
 }) =>
   <Post>
     <Header>
@@ -127,6 +128,12 @@ export default ({
               {comment.text}
             </Comment>
           )}
+          {selfComments.map(comment =>
+            <Comment key={comment.id}>
+              <FatText text={comment.user.username} />
+              {comment.text}
+            </Comment>
+          )}
         </Comments>}
       <Timestamp>
         {createdAt}
@@ -136,6 +143,6 @@ export default ({
       placeholder="댓글 달기..."
       value={newComment.value}
       onChange={newComment.onChange}
-      onKeyUp={onKeyUp}
+      onKeyPress={onKeyPress}
     />
   </Post>;

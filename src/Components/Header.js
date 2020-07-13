@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
-import { gql } from "apollo-boost";
 import Input from "./Input";
 import useInput from "../Hooks/useInput";
-import { Compass, HeartEmpty, User, Logo } from "./Icons";
+import { Compass, HeartEmpty, User, Logo, Search } from "./Icons";
 import { useQuery } from "react-apollo-hooks";
+import { ME } from "../ShardQueries";
 
 const Header = styled.header`
   width: 100%;
@@ -43,10 +43,29 @@ const HeaderColumn = styled.div`
   }
 `;
 
+const SearchForm = styled.form`position: relative;`;
+
+const SearchIcon = styled.span`
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  svg {
+    margin-left: 55px;
+    opacity: .25;
+  }
+`;
+
 const SearchInput = styled(Input)`
   background-color: ${props => props.theme.bgColor};
   padding: 5px;
   font-size: 14px;
+  font-weight: 400;
   border-radius: 3px;
   height: auto;
   text-align: center;
@@ -55,19 +74,16 @@ const SearchInput = styled(Input)`
     opacity: 0.8;
     font-weight: 200;
   }
+  &:focus {
+    text-align: left;
+    font-weight: 500;
+    padding: 5px 10px 5px 26px;
+  }
 `;
 
 const HeaderLink = styled(Link)`
   &:not(:last-child) {
     margin-right: 30px;
-  }
-`;
-
-const ME = gql`
-  {
-    me {
-      username
-    }
   }
 `;
 
@@ -87,9 +103,12 @@ export default withRouter(({ history }) => {
           </Link>
         </HeaderColumn>
         <HeaderColumn>
-          <form onSubmit={onSearchSubmit}>
-            <SearchInput value={search.value} onChange={search.onChange} placeholder="Search" />
-          </form>
+          <SearchForm onSubmit={onSearchSubmit}>
+            <SearchIcon>
+              <Search size={12} />
+            </SearchIcon>
+            <SearchInput value={search.value} onChange={search.onChange} placeholder="검색" />
+          </SearchForm>
         </HeaderColumn>
         <HeaderColumn>
           <HeaderLink to="/explore">
