@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import Input from "./Input";
 import useInput from "../Hooks/useInput";
-import { Compass, HeartEmpty, User, Logo, Search } from "./Icons";
+import { Compass, HeartEmpty, Logo, Search } from "./Icons";
 import { useQuery } from "react-apollo-hooks";
 import { ME } from "../ShardQueries";
+import Avatar from "./Avatar";
 
 const Header = styled.header`
   width: 100%;
@@ -33,17 +34,24 @@ const HeaderWrapper = styled.div`
 const HeaderColumn = styled.div`
   width: 33%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-width: 125px;
+  width: 215px;
   &:first-child {
-    margin-right: auto;
-    text-align: left;
+    justify-content: flex-start;
   }
   &:last-child {
-    margin-left: auto;
-    text-align: right;
+    justify-content: flex-end;
   }
 `;
 
-const SearchForm = styled.form`position: relative;`;
+const SearchForm = styled.form`
+  position: relative;
+  width: 100%;
+`;
 
 const SearchIcon = styled.span`
   position: absolute;
@@ -69,7 +77,8 @@ const SearchInput = styled(Input)`
   border-radius: 3px;
   height: auto;
   text-align: center;
-  width: 70%;
+  max-width: 215px;
+  width: 100%;
   &::placeholder {
     opacity: 0.8;
     font-weight: 200;
@@ -82,9 +91,16 @@ const SearchInput = styled(Input)`
 `;
 
 const HeaderLink = styled(Link)`
+  width: 22px;
+  height: 22px;
   &:not(:last-child) {
-    margin-right: 30px;
+    margin-right: 22px;
   }
+`;
+
+const EAvatar = styled(Avatar)`
+  width: 22px;
+  height: 22px;
 `;
 
 export default withRouter(({ history }) => {
@@ -95,6 +111,7 @@ export default withRouter(({ history }) => {
     history.push(`/search?term=${search.value}`);
   };
   return (
+    !loading &&
     <Header>
       <HeaderWrapper>
         <HeaderColumn>
@@ -112,13 +129,13 @@ export default withRouter(({ history }) => {
         </HeaderColumn>
         <HeaderColumn>
           <HeaderLink to="/explore">
-            <Compass />
+            <Compass size={22} />
           </HeaderLink>
           <HeaderLink to="/notifications">
-            <HeartEmpty />
+            <HeartEmpty size={22} />
           </HeaderLink>
-          <HeaderLink to={!loading && data.me ? data.me.username : "/#"}>
-            <User />
+          <HeaderLink to={data.me ? data.me.username : "/#"}>
+            <EAvatar url={data.me.avatar} size="sm" />
           </HeaderLink>
         </HeaderColumn>
       </HeaderWrapper>

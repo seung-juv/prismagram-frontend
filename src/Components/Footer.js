@@ -6,9 +6,11 @@ const Footer = styled.footer`
   justify-content: space-between;
   align-items: center;
   text-transform: uppercase;
+  width: 100%;
+  max-width: ${props => props.theme.maxWidth};
+  margin: 50px auto;
   font-weight: 600;
   font-size: 12px;
-  margin: 50px 0;
 `;
 
 const List = styled.ul`display: flex;`;

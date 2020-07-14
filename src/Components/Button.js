@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const Container = styled.button`
   width: 100%;
@@ -10,17 +9,14 @@ const Container = styled.button`
   font-weight: 600;
   background-color: ${props => props.theme.blueColor};
   text-align: center;
-  padding: 7px 0px;
+  padding: 7px 24px;
   font-size: 14px;
+  cursor: pointer;
 `;
 
-const Button = ({ text }) =>
-  <Container>
+const Button = ({ text, onClick, className }) =>
+  <Container onClick={onClick} className={className}>
     {text}
   </Container>;
-
-Button.propTypes = {
-  text: PropTypes.string.isRequired
-};
 
 export default Button;

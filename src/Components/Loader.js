@@ -14,7 +14,15 @@ const Animation = keyframes`
   }
 `;
 
-const Loader = styled.div`animation: ${Animation} 1s linear infinite;`;
+const Loader = styled.div`
+  animation: ${Animation} 1s linear infinite;
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
 
 export default () =>
   <Loader>

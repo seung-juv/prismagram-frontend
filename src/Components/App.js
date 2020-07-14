@@ -17,29 +17,42 @@ const QUERY = gql`
   }
 `;
 
+const RootWrapper = styled.section`
+  background-color: ${props => props.theme.bgColor};
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+  padding-top: 55px;
+  box-sizing: border-box;
+`;
+
 const Wrapper = styled.div`
   margin: 0 auto;
   max-width: ${props => props.theme.maxWidth};
   width: 100%;
+  min-height: 80vh;
+  padding-top: 30px;
+  flex: 1;
 `;
+
 export default () => {
   const { data: { isLoggedIn } } = useQuery(QUERY);
 
   return (
     <ThemeProvider theme={Theme}>
-      <>
+      <RootWrapper>
         <GlobalStyles />
         <Router>
           <>
             {isLoggedIn && <Header />}
             <Wrapper>
               <Routes isLoggedIn={isLoggedIn} />
-              <Footer />
             </Wrapper>
+            <Footer />
           </>
         </Router>
         <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
-      </>
+      </RootWrapper>
     </ThemeProvider>
   );
 };
