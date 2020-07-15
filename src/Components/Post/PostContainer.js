@@ -4,6 +4,7 @@ import PostPresenter from "./PostPresenter";
 import { useMutation } from "react-apollo-hooks";
 import { TOGGLE_LIKE, ADD_COMMENT } from "./PostQueries";
 import { toast } from "react-toastify";
+import PostView from "../PostView";
 
 const PostContainer = ({
   id,
@@ -14,7 +15,11 @@ const PostContainer = ({
   comments,
   createdAt,
   location,
-  avatar
+  caption,
+  postView,
+  isSelf,
+  isFollowing,
+  className
 }) => {
   const [isLikedS, setIsLiked] = useState(isLiked);
   const [likeCountS, setLikeCount] = useState(likeCount);
@@ -38,38 +43,65 @@ const PostContainer = ({
     }
   };
 
-  const onKeyPress = async(e) => {
-    const { which } = e;
-    if (which === 13) {
-      e.preventDefault();
-      try {
-        const { data: {addComment} } = await addCommentMutation();
-        setSelfComments([ ...selfComments, addComment ]);
-        comment.setValue("");
-      } catch {
-        toast.error("Can't send comment.");
-      }
+  const onSubmit = async () => {
+    try {
+      const { data: { addComment } } = await addCommentMutation();
+      setSelfComments([...selfComments, addComment]);
+      comment.setValue("");
+    } catch (error) {
+      toast.error("Can't send comment.");
     }
-    return;
   };
 
+  const [isPostView, setIsPostView] = useState(false);
+  
+  const onClick = () => {
+    setIsPostView(!isPostView);
+  }
+
   return (
-    <PostPresenter
-      user={user}
-      files={files}
-      avatar={avatar}
-      likeCount={likeCountS}
-      location={location}
-      isLiked={isLikedS}
-      comments={comments}
-      createdAt={createdAt}
-      newComment={comment}
-      setIsLiked={setIsLiked}
-      setLikeCount={setLikeCount}
-      toggleLike={toggleLike}
-      onKeyPress={onKeyPress}
-      selfComments={selfComments}
-    />
+    <>
+      <PostPresenter
+        id={id}
+        isSelf={isSelf}
+        isFollowing={isFollowing}
+        files={files}
+        caption={caption}
+        user={user}
+        likeCount={likeCountS}
+        location={location}
+        isLiked={isLikedS}
+        comments={comments}
+        createdAt={createdAt}
+        newComment={comment}
+        setIsLiked={setIsLiked}
+        setLikeCount={setLikeCount}
+        toggleLike={toggleLike}
+        onSubmit={onSubmit}
+        selfComments={selfComments}
+        postView={postView ? postView : false}
+        className={className}
+        onClick={onClick}
+      />
+      {isPostView && 
+        <PostView
+          key={id}
+          id={id}
+          location={location}
+          caption={caption}
+          user={user}
+          isSelf={isSelf}
+          files={files}
+          likeCount={likeCount}
+          isLiked={isLiked}
+          comments={comments}
+          createdAt={createdAt}
+          postView={true}
+          onClick={onClick}
+          isFollowing={isFollowing}
+        />
+      }
+    </>
   );
 };
 

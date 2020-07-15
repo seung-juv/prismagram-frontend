@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Helmet from "react-helmet";
 import styled from "styled-components";
 import { gql } from "apollo-boost";
@@ -16,6 +16,7 @@ const FEED_QUERY = gql`
         id
         avatar
         username
+        isSelf
       }
       files {
         id
@@ -29,7 +30,9 @@ const FEED_QUERY = gql`
         user {
           id
           username
+          avatar
         }
+        createdAt
       }
       createdAt
     }
@@ -45,10 +48,16 @@ const Wrapper = styled.div`
 
 export default () => {
   const { data, loading } = useQuery(FEED_QUERY);
+  const [isPostView, setIsPostView] = useState(false);
+
+  const onClick = () => {
+    setIsPostView(!isPostView);
+  };
+
   return (
     <Wrapper>
       <Helmet>
-        <title>Feed | Prismagram</title>
+        <title>Prismagram</title>
       </Helmet>
       {loading && <Loader />}
       {!loading &&
@@ -58,6 +67,7 @@ export default () => {
           <Post
             key={post.id}
             id={post.id}
+            isSelf={post.user.isSelf}
             location={post.location}
             caption={post.caption}
             user={post.user}
@@ -66,6 +76,7 @@ export default () => {
             isLiked={post.isLiked}
             comments={post.comments}
             createdAt={post.createdAt}
+            onClick={onClick}
           />
         )}
     </Wrapper>

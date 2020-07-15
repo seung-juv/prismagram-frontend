@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const Text = styled.span`
-  font-weight: 600;
-  user-select: none;
-`;
+const Text = styled.span`font-weight: 600;`;
 
-const FatText = ({ text }) =>
-  <Text>
+const FatText = ({ text, className }) =>
+  <Text className={className}>
     {text}
   </Text>;
 

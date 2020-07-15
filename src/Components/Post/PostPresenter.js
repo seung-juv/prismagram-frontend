@@ -1,26 +1,80 @@
 import React from "react";
 import styled from "styled-components";
-import TextareaAutosize from "react-autosize-textarea";
 import FatText from "../FatText";
 import Avatar from "../Avatar";
 import { HeartFull, HeartEmpty, Comment as CommentIcon } from "../Icons";
 import Slider from "../Slider";
+import { Link } from "react-router-dom";
+import Timestamp from "../Timestamp";
+import AddComment from "../AddComment";
+import FollowButton from "../../Components/FollowButton";
 
 const Post = styled.article`
   ${props => props.theme.whiteBox};
+  ${props =>
+    props.postView
+      ? `
+        max-width: 935px; border: 0; border-radius: 0; display: flex;
+        ${UserColumn} {
+          margin-left: 14px;
+        }
+        ${EAddComment} {
+          position: absolute; bottom: 0; right: 0; max-width: 335px;
+        };
+        ${Header} {
+          position: absolute; height: 72px; top: 0; right: 0; max-width: 335px; width: 100%; border-bottom: 1px solid #eee;
+        }
+        ${Meta} {
+          position: absolute; padding: 2px 0px 0px; top: 72px; height: 457px; display: flex; flex-flow: column nowrap; right: 0; max-width: 335px; width: 100%; background-color: #fff;
+        }
+        ${Buttons} {
+          order: 2; border-top: 1px solid #eee; padding: 0px 16px;
+        }
+        ${Comments} {
+          order: 1; height: 370px; overflow-y: auto; margin-bottom: 5px; padding: 0px 16px; margin-top: 15px;
+        }
+        ${Comment} {
+          display:flex;
+          flex-flow: row nowrap;
+          margin-bottom: 12px;
+          white-space: break-spaces;
+        }
+        ${Avatar} {
+          flex: 0 0 30px;
+        }
+        ${Files} {
+          max-width: 600px;
+          height: 600px;
+          margin-right: 335px;
+        }
+        ${LikeCount} {
+          order: 3; padding: 0px 16px;
+        }
+        ${CreatedAt} {
+          order: 4; padding: 0px 16px;
+        }
+        `
+      : `max-width: 614px`};
   width: 100%;
-  max-width: 614px;
   margin-bottom: 25px;
+  position: relative;
+  a {
+    color: inherit;
+  }
 `;
 
 const Header = styled.header`
-  height: 60px;
   padding: 16px;
+  height: 60px;
   display: flex;
   align-items: center;
+  background-color: #fff;
 `;
 
-const UserColumn = styled.div`margin-left: 10px;`;
+const UserColumn = styled(Link)`
+  margin-left: 10px; 
+  color:#333;
+`;
 
 const Location = styled.span`
   display: block;
@@ -40,7 +94,7 @@ const Button = styled.button`
   cursor: pointer;
   padding: 8px;
   display: flex;
-  justify-contents: center;
+  justify-content: center;
   align-items: center;
   border: none;
   outline: none;
@@ -53,41 +107,84 @@ const Button = styled.button`
   }
 `;
 
-const Timestamp = styled.span`
-  font-weight: 400;
-  text-transform: uppercase;
-  opacity: 0.5;
-  display: block;
-  font-size: 10px;
-  margin-top: 10px;
-`;
-
-const Textarea = styled(TextareaAutosize)`
-  border: none;
-  width: 100%;
-  resize: none;
-  font-size: 14px;
-  margin: 10px 0px;
-  font: inherit;
-  border-top: ${props => props.theme.lightBoxColor} 1px solid;
-  &:focus {
-    outline: none;
-  }
-  padding: 20px 15px;
-  margin: 15px 0px 0px;
-`;
-
 const Comments = styled.ul`margin-top: 10px;`;
 
 const Comment = styled.li`
-  margin-bottom: 7px;
+  margin-bottom: 3px;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   span {
     margin-right: 5px;
   }
 `;
 
+const Caption = styled.div`
+  margin: 10px 0px 4px;
+  span {
+    margin-right: 5px;
+  }
+`;
+
+const Files = styled.div`
+  width: 100%;
+  height: 612px;
+`;
+
+const File = styled.div`
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
+  transition: opacity .5s linear;
+`;
+
+const CommentsAll = styled.span`
+  color: #acacac;
+  display: block;
+  margin-bottom: 7px;
+  cursor: pointer;
+`;
+
+const LikeCount = styled(FatText)``;
+
+const CreatedAt = styled(Timestamp)``;
+
+const CommentText = styled.div`
+  word-break: break-all;
+  line-height: 18px;
+  margin-left: 14px;
+`;
+
+const EAvatar = styled(Avatar)`flex: 0 0 30px;`;
+
+const EAddComment = styled(AddComment)``;
+
+const EFollowButton = styled(FollowButton)`
+  background-color: #fff;
+  border: 0;
+
+  padding: 0px 3px;
+  height: 14px;
+  ${props => (props.isFollowing ? `color: #333;` : `color: ${props.theme.blueColor}`)};
+`;
+
+const Username = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const FollowButtonWrapper = styled.div`margin-left: 5px;`;
+
 export default ({
   user: { username, avatar },
+  isSelf,
+  id,
+  isFollowing,
   location,
   files,
   isLiked,
@@ -95,54 +192,119 @@ export default ({
   createdAt,
   newComment,
   toggleLike,
-  onKeyPress,
+  onSubmit,
   comments,
+  caption,
+  postView,
+  onClick,
   selfComments
 }) =>
-  <Post>
+  <Post postView={postView}>
     <Header>
       <Avatar size="sm" url={avatar} />
-      <UserColumn>
-        <FatText text={username} />
+      <UserColumn to={`/${username}`}>
+        <Username>
+          <FatText text={username} />
+          {postView &&
+            !isSelf &&
+            <FollowButtonWrapper>
+              • <EFollowButton id={id} isFollowing={isFollowing} />
+            </FollowButtonWrapper>}
+        </Username>
         <Location>
           {location}
         </Location>
       </UserColumn>
     </Header>
-    <Slider files={files} />
+    <Files>
+      {files.length >= 2 ? <Slider files={files} /> : <File src={files[0].url} />}
+    </Files>
     <Meta>
       <Buttons>
         <Button onClick={toggleLike}>
           {isLiked ? <HeartFull /> : <HeartEmpty />}
         </Button>
-        <Button>
+        <Button onClick={onClick}>
           <CommentIcon />
         </Button>
       </Buttons>
-      <FatText text={`좋아요 ${likeCount}개`} />
+      <LikeCount text={`좋아요 ${likeCount}개`} />
+      {!postView &&
+        caption &&
+        <Caption>
+          <Link to={`/${username}`}>
+            <FatText text={username} />
+          </Link>
+          {caption}
+        </Caption>}
       {comments &&
         <Comments>
-          {comments.map(comment =>
-            <Comment key={comment.id}>
-              <FatText text={comment.user.username} />
-              {comment.text}
-            </Comment>
-          )}
-          {selfComments.map(comment =>
-            <Comment key={comment.id}>
-              <FatText text={comment.user.username} />
-              {comment.text}
-            </Comment>
-          )}
+          {!postView &&
+            comments.length > 2 &&
+            <CommentsAll onClick={onClick}>
+              {`댓글 ${comments.length}개 모두 보기`}
+            </CommentsAll>}
+          {postView &&
+            caption &&
+            <Comment>
+              <EAvatar size="sm" url={avatar} />
+              <CommentText>
+                <Link to={`/${username}`}>
+                  <FatText text={username} />
+                </Link>
+                {caption}
+                <Timestamp createdAt={createdAt} />
+              </CommentText>
+            </Comment>}
+          {!postView
+            ? comments.slice(0, 2).map(comment =>
+                <Comment key={comment.id}>
+                  <Link to={`/${username}`}>
+                    <FatText text={comment.user.username} />
+                  </Link>
+                  {comment.text}
+                </Comment>
+              )
+            : comments.map(comment =>
+                <Comment key={comment.id}>
+                  <EAvatar size="sm" url={comment.user.avatar} />
+                  <CommentText>
+                    <Link to={`/${username}`}>
+                      <FatText text={comment.user.username} />
+                    </Link>
+                    {comment.text}
+                    <Timestamp createdAt={comment.createdAt} />
+                  </CommentText>
+                </Comment>
+              )}
+          {!postView
+            ? selfComments.map(comment =>
+                <Comment key={comment.id}>
+                  <Link to={`/${username}`}>
+                    <FatText text={comment.user.username} />
+                  </Link>
+                  {comment.text}
+                </Comment>
+              )
+            : selfComments.map(comment =>
+                <Comment key={comment.id}>
+                  <EAvatar size="sm" url={comment.user.avatar} />
+                  <CommentText>
+                    <Link to={`/${username}`}>
+                      <FatText text={comment.user.username} />
+                    </Link>
+                    {comment.text}
+                    <Timestamp createdAt={Date.now()} />
+                  </CommentText>
+                </Comment>
+              )}
         </Comments>}
-      <Timestamp>
-        {createdAt}
-      </Timestamp>
+      <CreatedAt createdAt={createdAt} />
     </Meta>
-    <Textarea
+    <EAddComment
       placeholder="댓글 달기..."
       value={newComment.value}
       onChange={newComment.onChange}
-      onKeyPress={onKeyPress}
+      onSubmit={onSubmit}
     />
   </Post>;

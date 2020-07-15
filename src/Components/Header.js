@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import Input from "./Input";
 import useInput from "../Hooks/useInput";
-import { Compass, HeartEmpty, Logo, Search } from "./Icons";
+import { Compass, Home, Logo, Search } from "./Icons";
 import { useQuery } from "react-apollo-hooks";
 import { ME } from "../ShardQueries";
 import Avatar from "./Avatar";
@@ -128,11 +128,11 @@ export default withRouter(({ history }) => {
           </SearchForm>
         </HeaderColumn>
         <HeaderColumn>
+          <HeaderLink to="/">
+            <Home size={22} />
+          </HeaderLink>
           <HeaderLink to="/explore">
             <Compass size={22} />
-          </HeaderLink>
-          <HeaderLink to="/notifications">
-            <HeartEmpty size={22} />
           </HeaderLink>
           <HeaderLink to={data.me ? data.me.username : "/#"}>
             <EAvatar url={data.me.avatar} size="sm" />

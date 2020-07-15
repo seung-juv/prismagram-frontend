@@ -62,35 +62,35 @@ export default ({
       {action === "logIn" && (
         <>
           <Helmet>
-            <title>Log In | Prismagram</title>
+            <title>로그인 • Prismagram</title>
           </Helmet>
           <form onSubmit={onSubmit}>
-            <Input placeholder={"Email"} value={email.value} onChange={email.onChange} type="email" />
-            <Button text={"Log in"} />
+            <Input placeholder={"이메일"} value={email.value} onChange={email.onChange} type="email" />
+            <Button text={"로그인"} />
           </form>
         </>
       )} {action ==="signUp" && (
         <>
           <Helmet>
-            <title>Sign Up | Prismagram</title>
+            <title>가입하기 | Prismagram</title>
           </Helmet>
           <form onSubmit={onSubmit}>
-            <Input placeholder={"First name"} value={firstName.value} onChange={firstName.onChange} />
-            <Input placeholder={"Last name"} value={lastName.value} onChange={lastName.onChange}/>
-            <Input placeholder={"Email"} value={email.value} onChange={email.onChange} type="email" />
-            <Input placeholder={"Username"} value={username.value} onChange={username.onChange} />
-            <Button text={"Sign up"} />
+            <Input placeholder={"이메일 주소"} value={email.value} onChange={email.onChange} type="email" />
+            <Input placeholder={"성"} value={firstName.value} onChange={firstName.onChange} />
+            <Input placeholder={"이름"} value={lastName.value} onChange={lastName.onChange}/>
+            <Input placeholder={"사용자 이름"} value={username.value} onChange={username.onChange} />
+            <Button text={"가입"} />
           </form>
         </>
       )}
       {action === "confirm" && (
         <>
           <Helmet>
-            <title>Confirm Secret | Prismagram</title>
+            <title>Confirm Secret • Prismagram</title>
           </Helmet>
           <form onSubmit={onSubmit}>
-            <Input placeholder="Paste your secret" value={secret.value} onChange={secret.onChange} required />
-            <Button text={"Confirm"} />
+            <Input placeholder="인증키를 입력해주세요." value={secret.value} onChange={secret.onChange} required />
+            <Button text={"로그인"} />
           </form>
         </>
       )}
@@ -99,13 +99,13 @@ export default ({
       <StateChanger>
         {action === "logIn" ? (
           <>
-            Don't have an account?{" "}
-            <Link onClick={() => setAction("signUp")}>Sign up</Link>
+            계정이 없으신가요?{" "}
+            <Link onClick={() => setAction("signUp")}>가입하기</Link>
           </>
         ) : (
           <>
-            Have an account?{" "}
-            <Link onClick={() => setAction("logIn")}>Log in</Link>
+            계정이 있으신가요?{" "}
+            <Link onClick={() => setAction("logIn")}>로그인</Link>
           </>
         )}
       </StateChanger>

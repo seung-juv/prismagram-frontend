@@ -10,14 +10,14 @@ const Wrapper = styled.div`height: 50vh;`;
 const Section = styled.div`
   margin-bottom: 50px;
   display: grid;
-  grid-gap: 25px;
-  grid-template-columns: repeat(4, 160px);
+  grid-gap: 1.2%;
+  grid-template-columns: repeat(5, 19%);
   grid-template-rows: 160px;
   grid-auto-rows: 160px;
 `;
 
 const PostSection = styled(Section)`
-  grid-template-columns: repeat(4, 200px);
+  grid-template-columns: repeat(4, 20%);
   grid-template-rows: 200px;
   grid-auto-rows: 200px;
 `;

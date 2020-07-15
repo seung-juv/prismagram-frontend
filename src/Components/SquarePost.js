@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { HeartFull, CommentFull } from "./Icons";
-import { Link } from "react-router-dom";
+import PostView from "./PostView";
 
 const Container = styled.div`
   background-image: url(${props => props.bg});
   background-size: cover;
 `;
 
-const Overlay = styled(Link)`
+const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
   height: 100%;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,8 +35,9 @@ const NumberText = styled.span`
   font-size: 16px;
 `;
 
-const SquarePost = ({ likeCount, commentCount, file }) => {
+const SquarePost = ({ id, location, caption, user, files, likeCount, isLiked, comments, commentCount, isSelf, createdAt, file, isFollowing }) => {
   const [isOnMouseEnter, setIsOnMouseEnter] = useState(false);
+  const [isPostView, setIsPostView] = useState(false);
 
   const onMouseEnter = () => {
     setIsOnMouseEnter(true);
@@ -45,10 +47,14 @@ const SquarePost = ({ likeCount, commentCount, file }) => {
     setIsOnMouseEnter(false);
   };
 
+  const onClick = () => {
+    setIsPostView(!isPostView);
+  };
   return (
-    <Container bg={file.url} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <>
+      <Container bg={file.url} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       {isOnMouseEnter &&
-        <Overlay to="/">
+        <Overlay onClick={onClick}>
           <Number>
             <HeartFull />
             <NumberText>
@@ -62,7 +68,26 @@ const SquarePost = ({ likeCount, commentCount, file }) => {
             </NumberText>
           </Number>
         </Overlay>}
-    </Container>
+      </Container>
+      {isPostView && 
+        <PostView
+          key={id}
+          id={id}
+          location={location}
+          caption={caption}
+          user={user}
+          isSelf={isSelf}
+          files={files}
+          likeCount={likeCount}
+          isLiked={isLiked}
+          comments={comments}
+          createdAt={createdAt}
+          postView={true}
+          onClick={onClick}
+          isFollowing={isFollowing}
+        />
+      }
+    </>
   );
 };
 

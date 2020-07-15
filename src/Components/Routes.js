@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Feed from "../Routes/Feed";
 import Auth from "../Routes/Auth";
 import Search from "../Routes/Search";
@@ -12,6 +12,7 @@ const LoggedInRoutes = () =>
     <Route path="/explore" component={Explore} />
     <Route path="/search" component={Search} />
     <Route path="/:username" component={Profile} />
+    <Redirect from="*" to="/" />
   </Switch>;
 
 const LoggedOutRoutes = () =>

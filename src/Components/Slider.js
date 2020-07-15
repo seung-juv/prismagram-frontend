@@ -13,7 +13,8 @@ import "swiper/components/scrollbar/scrollbar.scss";
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 const Files = styled(Swiper)`
-  height: 614px;
+  height: 100%;
+  ${props => props.postView && "width: 100%; margin-right: 335px;"};
 `;
 
 const File = styled.div`
