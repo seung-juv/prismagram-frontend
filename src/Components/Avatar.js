@@ -23,7 +23,10 @@ const Container = styled.div`
   border-radius:50%;
 `;
 
-const Avatar = ({ size = "sm", url, className }) =>
-  <Container size={size} className={className} url={url} />;
+const Avatar = ({
+  size = "sm",
+  url = "https://instagram.fsaw2-2.fna.fbcdn.net/v/t51.2885-19/44884218_345707102882519_2446069589734326272_n.jpg?_nc_ht=instagram.fsaw2-2.fna.fbcdn.net&_nc_ohc=k9G3x77cGJoAX9b-R4t&oh=8ab87cafff6ae9827eda1084e24d0391&oe=5F37450F&ig_cache_key=YW5vbnltb3VzX3Byb2ZpbGVfcGlj.2",
+  className
+}) => <Container size={size} className={className} url={url} />;
 
 export default Avatar;

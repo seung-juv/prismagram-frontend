@@ -135,7 +135,7 @@ export default withRouter(({ history }) => {
             <Compass size={22} />
           </HeaderLink>
           <HeaderLink to={data.me ? data.me.username : "/#"}>
-            <EAvatar url={data.me.avatar} size="sm" />
+            <EAvatar url={data.me && data.me.avatar} size="sm" />
           </HeaderLink>
         </HeaderColumn>
       </HeaderWrapper>

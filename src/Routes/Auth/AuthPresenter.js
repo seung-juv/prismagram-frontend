@@ -53,6 +53,7 @@ export default ({
   firstName,
   lastName,
   email,
+  password,
   setAction,
   onSubmit,
   secret
@@ -66,6 +67,7 @@ export default ({
           </Helmet>
           <form onSubmit={onSubmit}>
             <Input placeholder={"이메일"} value={email.value} onChange={email.onChange} type="email" />
+            <Input placeholder={"비밀번호"} value={password.value} onChange={password.onChange} type="password" />
             <Button text={"로그인"} />
           </form>
         </>
@@ -76,6 +78,7 @@ export default ({
           </Helmet>
           <form onSubmit={onSubmit}>
             <Input placeholder={"이메일 주소"} value={email.value} onChange={email.onChange} type="email" />
+            <Input placeholder={"비밀번호"} value={password.value} onChange={password.onChange} type="password" />
             <Input placeholder={"성"} value={firstName.value} onChange={firstName.onChange} />
             <Input placeholder={"이름"} value={lastName.value} onChange={lastName.onChange}/>
             <Input placeholder={"사용자 이름"} value={username.value} onChange={username.onChange} />
