@@ -128,7 +128,7 @@ const Caption = styled.div`
 `;
 
 const Files = styled.div`
-  width: 100%;
+  width: 612px;
   height: 612px;
 `;
 
@@ -224,7 +224,7 @@ export default ({
         <Button onClick={toggleLike}>
           {isLiked ? <HeartFull /> : <HeartEmpty />}
         </Button>
-        <Button onClick={onClick}>
+        <Button onClick={!postView && onClick}>
           <CommentIcon />
         </Button>
       </Buttons>
