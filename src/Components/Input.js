@@ -9,6 +9,7 @@ const Container = styled.input`
   height: 35px;
   font-size: 12px;
   padding: 0px 15px;
+  font-weight: 600;
 `;
 
 const Input = ({ placeholder, required = true, value, onChange, className, type = "text" }) =>
